@@ -38,7 +38,7 @@ const handlebars = handlebarsModule.create({
 })
 
 app.set("views", process.cwd() + "/views")
-app.set("view engine", handlebars)
+app.set("view engine", "hbs")
 app.engine("hbs", handlebars.engine)
 
 app.use("/", express.static('public'))
@@ -47,7 +47,8 @@ app.use("/", express.static('public'))
 
 // routes in express server
 app.get('/', (req, res) => {
-  res.send('hi')
+
+  res.render('index')
 })
 
 
