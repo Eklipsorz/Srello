@@ -1,0 +1,24 @@
+{
+  "name": "srello",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eklipsorz/Srello.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eklipsorz/Srello/issues"
+  },
+  "homepage": "https://github.com/Eklipsorz/Srello#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
