@@ -1,5 +1,6 @@
 // define express, mongoose, handlebars
 const express = require('express')
+const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
 
 
@@ -9,18 +10,15 @@ const dbPort = 27017
 const dbName = 'srello-list'
 
 
-// create app with express object
-const app = express()
 
 
-// connect to mongodb
+
+
+// settings in mongodb
+
 mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
-
-
-// get connection between mongodb and mongoose
 const db = mongoose.connection
 
-// 
 db.on('error', () => {
   console.log('mongodb error!')
 })
@@ -30,11 +28,30 @@ db.once('open', () => {
 })
 
 
+// settings in express server
+const app = express()
+
+const handlebars = handlebarsModule.create({
+  layoutsDir: "views/layouts",
+  defaultLayout: "main",
+  extname: "hbs"
+})
+
+app.set("views", process.cwd() + "/views")
+app.set("view engine", handlebars)
+app.engine("hbs", handlebars.engine)
+
+app.use("/", express.static('public'))
+
+
+
+// routes in express server
 app.get('/', (req, res) => {
   res.send('hi')
 })
 
 
+// express server is listening
 app.listen(port, () => {
   console.log(`The express server is running at ${port}`)
 })
