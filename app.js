@@ -2,7 +2,7 @@
 const express = require('express')
 const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
-
+const srelloListDB = require('./models/srelloList')
 
 // define port, database_port, database_name
 const port = 3500
@@ -37,9 +37,10 @@ const handlebars = handlebarsModule.create({
   extname: "hbs"
 })
 
+app.engine("hbs", handlebars.engine)
 app.set("views", process.cwd() + "/views")
 app.set("view engine", "hbs")
-app.engine("hbs", handlebars.engine)
+
 
 app.use("/", express.static('public'))
 
@@ -47,8 +48,11 @@ app.use("/", express.static('public'))
 
 // routes in express server
 app.get('/', (req, res) => {
-
-  res.render('index')
+  console.log('enter /')
+  srelloListDB.find()
+    .lean()
+    .then(todos => res.render('index', { todos }))
+    .catch(error => console.log(error))
 })
 
 
