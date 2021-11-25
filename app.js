@@ -2,7 +2,7 @@
 const express = require('express')
 const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
-const srelloListDB = require('./models/srelloList')
+const todoModel = require('./models/todoModel')
 
 // define port, database_port, database_name
 const port = 3500
@@ -15,6 +15,10 @@ const dbName = 'srello-list'
 
 
 // settings in mongodb
+
+
+
+// mongoose.pluralize(null);
 
 mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
 const db = mongoose.connection
@@ -34,12 +38,12 @@ const app = express()
 const handlebars = handlebarsModule.create({
   layoutsDir: "views/layouts",
   defaultLayout: "main",
-  extname: "hbs"
+  extname: ".hbs"
 })
 
-app.engine("hbs", handlebars.engine)
+app.engine(".hbs", handlebars.engine)
 app.set("views", process.cwd() + "/views")
-app.set("view engine", "hbs")
+app.set("view engine", ".hbs")
 
 
 app.use("/", express.static('public'))
@@ -47,12 +51,14 @@ app.use("/", express.static('public'))
 
 
 // routes in express server
-app.get('/', (req, res) => {
-  console.log('enter /')
-  srelloListDB.find()
+app.get("/", (req, res) => {
+
+  todoModel.find()
     .lean()
+    .exec()
     .then(todos => res.render('index', { todos }))
     .catch(error => console.log(error))
+
 })
 
 
