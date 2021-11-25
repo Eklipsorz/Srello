@@ -54,6 +54,16 @@ app.get('/', (req, res) => {
 
 })
 
+app.get('/todos/:id', (req, res) => {
+
+  const id = req.params.id
+
+  todoModel.findById(id)
+    .lean()
+    .exec()
+    .then(todo => res.render('detail', { todo }))
+    .catch(error => console.log(error))
+})
 
 app.get('/todos/new', (req, res) => {
   res.render('new')
