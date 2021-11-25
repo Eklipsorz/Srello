@@ -93,7 +93,6 @@ app.get('/todos/:id/edit', (req, res) => {
 
 
 // update todo page
-
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
   const name = req.body.name
@@ -108,6 +107,16 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// remove a todo
+app.post('/todos/:id/delete', (req, res) => {
+  const id = req.params.id
+
+  todoModel.findById(id)
+    .exec()
+    .then(todo => todo.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
 
 
 // express server is listening
