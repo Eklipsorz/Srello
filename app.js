@@ -10,16 +10,7 @@ const dbPort = 27017
 const dbName = 'srello-list'
 
 
-
-
-
-
-// settings in mongodb
-
-
-
 // mongoose.pluralize(null);
-
 mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
 const db = mongoose.connection
 
@@ -36,22 +27,24 @@ db.once('open', () => {
 const app = express()
 
 const handlebars = handlebarsModule.create({
-  layoutsDir: "views/layouts",
-  defaultLayout: "main",
-  extname: ".hbs"
+  layoutsDir: 'views/layouts',
+  defaultLayout: 'main',
+  extname: '.hbs'
 })
 
-app.engine(".hbs", handlebars.engine)
-app.set("views", process.cwd() + "/views")
-app.set("view engine", ".hbs")
+app.engine('.hbs', handlebars.engine)
+app.set('views', process.cwd() + '/views')
+app.set('view engine', '.hbs')
 
 
-app.use("/", express.static('public'))
+app.use('/', express.static('public'))
 
 
+// set urlencoder in express
+app.use('/', express.urlencoded({ extended: true }))
 
 // routes in express server
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
 
   todoModel.find()
     .lean()
@@ -61,6 +54,22 @@ app.get("/", (req, res) => {
 
 })
 
+
+app.get('/todos/new', (req, res) => {
+  res.render('new')
+})
+
+// add a new todo
+app.post('/todos', (req, res) => {
+  const name = req.body.name
+  const newTodo = new todoModel({ name })
+
+  // insert a new document into the collecion via model
+  return newTodo.save()
+    .then(res.redirect('/'))
+    .catch(error => console.log(error))
+
+})
 
 // express server is listening
 app.listen(port, () => {
