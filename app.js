@@ -95,12 +95,13 @@ app.get('/todos/:id/edit', (req, res) => {
 // update todo page
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
+  const { name, isDone } = req.body
 
   todoModel.findById(id)
     .exec()
     .then(todo => {
       todo.name = name
+      todo.isDone = isDone === 'on'
       return todo.save()
     })
     .then(() => res.redirect('/'))
