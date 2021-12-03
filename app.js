@@ -4,26 +4,15 @@ const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const todoModel = require('./models/todoModel')
+
+// define mongoose settings
+const db = require('./config/mongoose')
+
 // define a set of routes
 const routes = require('./routes')
 
 // define port, database_port, database_name
 const port = 3500
-const dbPort = 27017
-const dbName = 'srello-list'
-
-
-// mongoose.pluralize(null);
-mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
 
 
 // settings in express server
