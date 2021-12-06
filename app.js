@@ -18,7 +18,6 @@ const port = 3500
 // settings in express server
 const app = express()
 
-
 const handlebars = handlebarsModule.create({
   layoutsDir: 'views/layouts',
   defaultLayout: 'main',
