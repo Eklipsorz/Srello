@@ -12,7 +12,7 @@ const db = require('./config/mongoose')
 const routes = require('./routes')
 
 // define port, database_port, database_name
-const port = 3500
+const port = process.env.PORT || 3500
 
 
 // settings in express server

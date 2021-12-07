@@ -3,9 +3,9 @@ const mongoose = require('mongoose')
 const dbPort = 27017
 const dbName = 'srello-list'
 
-
+const MONGODB_URI = process.env.MONGODB_URI || `mongodb://localhost:${dbPort}/${dbName}`
 // mongoose.pluralize(null);
-mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
+mongoose.connect(MONGODB_URI)
 const db = mongoose.connection
 
 db.on('error', () => {
