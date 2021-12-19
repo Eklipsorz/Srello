@@ -1,0 +1,23 @@
+
+#log-form .form-group {
+  /* Box model */
+  padding: 10px;
+}
+
+.login-btn {
+
+  /* Box model */
+  width: 100%;
+  border: none;
+
+  /* Font or other */
+  background: #e95420;
+  color: white;
+    
+
+}
+
+.login-btn:hover {
+  /* Font or other */
+  opacity: .75;
+}
