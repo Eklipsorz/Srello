@@ -1,0 +1,23 @@
+
+#register-form .form-group {
+  /* Box model */
+  padding: 1%;
+}
+
+.register-btn {
+
+  /* Box model */
+  width: 100%;
+  border: none;
+
+  /* Font or other */
+  background: #e95420;
+  color: white;
+    
+
+}
+
+.register-btn:hover {
+  /* Font or other */
+  opacity: .75;
+}
