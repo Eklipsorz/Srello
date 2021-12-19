@@ -3,7 +3,7 @@ const router = express.Router()
 
 
 const todoModel = require('../../models/todoModel')
-
+const userModel = require('../../models/users')
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -11,6 +11,25 @@ router.get('/login', (req, res) => {
 
 router.get('/register', (req, res) => {
   res.render('register')
+})
+
+router.post('/register', (req, res) => {
+  const { name, email, password, confirmPassword } = req.body
+
+  userModel.findOne({ email })
+    .then(user => {
+
+      if (user) {
+        console.log('user exists')
+        res.render('register', { name, email, password, confirmPassword })
+      } else {
+
+        return userModel.create({ name, email, password })
+          .then(() => res.redirect('/'))
+          .catch(error => console.log(error))
+      }
+    })
+
 })
 
 exports = module.exports = router
