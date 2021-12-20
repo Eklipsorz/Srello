@@ -3,6 +3,11 @@ const express = require('express')
 const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const session = require('express-session')
+
+
+
+
 const todoModel = require('./models/todoModel')
 
 // define mongoose settings
@@ -31,11 +36,20 @@ app.set('view engine', '.hbs')
 
 app.use('/', express.static('public'))
 
+
+app.use('/', session({
+  secret: 'ThesecretCat',
+  resave: false,
+  saveUninitialized: false
+}))
+
+
 // enable method-override function 
 app.use('/', methodOverride('_method'))
 
 // set urlencoder in express
 app.use('/', express.urlencoded({ extended: true }))
+
 
 
 app.use('/', routes)
