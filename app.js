@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const session = require('express-session')
 
+// loads passport
+const usePassport = require('./config/passport')
 
 
 
@@ -50,7 +52,7 @@ app.use('/', methodOverride('_method'))
 // set urlencoder in express
 app.use('/', express.urlencoded({ extended: true }))
 
-
+usePassport(app)
 
 app.use('/', routes)
 
