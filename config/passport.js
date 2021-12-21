@@ -6,7 +6,6 @@ const { Strategy } = require('passport-local')
 const userModel = require('../models/users')
 
 function usePassport(app) {
-
   // initialize passport and passport session function
   app.use(passport.initialize())
   app.use(passport.session())
@@ -32,6 +31,22 @@ function usePassport(app) {
       // something wrong in the execution of the query
       .catch(err => done(err, false))
   }))
+
+  // define how to serialize and how to deserialize
+
+  passport.serializeUser((user, done) => {
+    done(null, user.id)
+  })
+
+  passport.deserializeUser((id, done) => {
+    userModel.findById(id)
+      .lean()
+      .then(user => done(null, user))
+      .catch(error => done(error, false))
+  })
+
+
+
 
 }
 
