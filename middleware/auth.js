@@ -9,3 +9,5 @@ function authenticator(req, res, next) {
 }
 
 exports = module.exports = { authenticator }
+
+

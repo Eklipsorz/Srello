@@ -10,4 +10,5 @@ router.use('/todos', authenticator, todosRoutes)
 router.use('/users', usersRoutes)
 router.use('/', authenticator, homeRoutes)
 
+
 module.exports = router
