@@ -1,47 +1,38 @@
+// loads passport and passport's local strategy
 const passport = require('passport')
 const { Strategy } = require('passport-local')
 
-// define mongoose and mongoose model
-const mongoose = require('mongoose')
+// loads data model 
 const userModel = require('../models/users')
 
-// app object loads passport and its setting
 function usePassport(app) {
 
-  // initialize passport and its session settings
+  // initialize passport and passport session function
   app.use(passport.initialize())
   app.use(passport.session())
 
-  // define the settings of passport-local authentication
+  // define a validation strategy which passport.js could use
   passport.use(new Strategy({ usernameField: 'email' }, (email, password, done) => {
     userModel.findOne({ email })
+      // normally execute the query 
       .then(user => {
         if (!user) {
-          return done(null, false, { message: 'That email is not registered!' })
+          // nothing in the database
+          return done(null, false, { message: 'That email is not registered' })
         } else if (user.password != password) {
+          // successfully find the user but the password user inputs is not 
+          // matched with the password in the database
           return done(null, false, { message: 'Email or Password incorrect.' })
         } else {
+          // successfully find the user and the password user inputs is matched 
+          // with the password in the database
           return done(null, user)
         }
-
       })
-      .catch(error => done(error))
-
+      // something wrong in the execution of the query
+      .catch(err => done(err, false))
   }))
-
-  // define passport serialization
-  passport.serializeUser((user, done) => {
-    done(null, user.id)
-  })
-
-  // define passport deserialization
-  passport.deserializeUser((id, done) => {
-    userModel.findById(id)
-      .lean()
-      .then(user => done(null, user))
-      .catch(err => done(err, null))
-  })
 
 }
 
-exports = module.exports = usePassport 
+exports = module.exports = usePassport
