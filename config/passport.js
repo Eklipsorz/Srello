@@ -11,7 +11,10 @@ function usePassport(app) {
   app.use(passport.session())
 
   // define a validation strategy which passport.js could use
-  passport.use(new Strategy({ usernameField: 'email' }, (email, password, done) => {
+  passport.use(new Strategy({
+    passReqToCallback: true,
+    usernameField: 'email'
+  }, (req, email, password, done) => {
     userModel.findOne({ email })
       // normally execute the query 
       .then(user => {
@@ -21,15 +24,16 @@ function usePassport(app) {
         } else if (user.password != password) {
           // successfully find the user but the password user inputs is not 
           // matched with the password in the database
-          return done(null, false, { message: 'Email or Password incorrect.' })
+          return done(null, false, { message: 'Emaild or Password incorrect.' })
         } else {
           // successfully find the user and the password user inputs is matched 
           // with the password in the database
-          return done(null, user)
+          return done(null, user, { message: 'this success message' })
         }
       })
       // something wrong in the execution of the query
       .catch(err => done(err, false))
+
   }))
 
   // define how to serialize and how to deserialize
