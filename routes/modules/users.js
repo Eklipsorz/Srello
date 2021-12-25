@@ -67,13 +67,7 @@ router.post('/register', (req, res) => {
         )
         .then(() => res.redirect('/'))
         .catch((error) => console.log(error))
-      // else {
 
-      //   const newUser = new userModel({ name, email, password })
-      //   return newUser.save()
-      //     .then(() => res.redirect('/'))
-      //     .catch((error) => console.log(error))
-      // }
     })
 
 })

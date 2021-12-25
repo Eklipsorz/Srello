@@ -1,5 +1,6 @@
 // loads passport and passport's local strategy
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 const { Strategy } = require('passport-local')
 
 // loads data model 
@@ -21,15 +22,19 @@ function usePassport(app) {
         if (!user) {
           // nothing in the database
           return done(null, false, { message: 'That email is not registered' })
-        } else if (user.password != password) {
-          // successfully find the user but the password user inputs is not 
-          // matched with the password in the database
-          return done(null, false, { message: 'Email or Password incorrect.' })
-        } else {
-          // successfully find the user and the password user inputs is matched 
-          // with the password in the database
-          return done(null, user)
         }
+
+        return bcrypt.compare(password, user.password)
+          .then(isMatched => {
+            if (!isMatched) {
+              // successfully find the user but the password user inputs is not 
+              // matched with the password in the database
+              return done(null, false, { message: 'Email or Password incorrect.' })
+            }
+            // successfully find the user and the password user inputs is matched 
+            // with the password in the database
+            return done(null, user)
+          })
       })
       // something wrong in the execution of the query
       .catch(err => done(err, false))
