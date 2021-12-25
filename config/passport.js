@@ -24,11 +24,11 @@ function usePassport(app) {
         } else if (user.password != password) {
           // successfully find the user but the password user inputs is not 
           // matched with the password in the database
-          return done(null, false, { message: 'Emaild or Password incorrect.' })
+          return done(null, false, { message: 'Email or Password incorrect.' })
         } else {
           // successfully find the user and the password user inputs is matched 
           // with the password in the database
-          return done(null, user, { message: 'this success message' })
+          return done(null, user)
         }
       })
       // something wrong in the execution of the query
