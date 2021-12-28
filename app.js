@@ -5,6 +5,12 @@ const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const session = require('express-session')
 
+
+if (process.env.NODE_ENV != 'production') {
+  require('dotenv').config()
+}
+
+
 // loads flash
 const flash = require('connect-flash')
 
@@ -24,7 +30,6 @@ const routes = require('./routes')
 // define port, database_port, database_name
 const port = process.env.PORT || 3500
 
-
 // settings in express server
 const app = express()
 
@@ -43,7 +48,7 @@ app.use('/', express.static('public'))
 
 
 app.use('/', session({
-  secret: 'ThesecretCat',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }))
@@ -65,7 +70,7 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.warning_msg = req.flash('warning_msg')
   res.locals.failure_msg = req.flash('error')
-  console.log('failure ', res.locals.failure_msg)
+
   next()
 })
 
